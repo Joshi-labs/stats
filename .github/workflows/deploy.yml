@@ -1,0 +1,78 @@
+name: Build and Deploy Stats App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      IMAGE: ghcr.io/<your-username>/stats:latest
+      NAMESPACE: monitoring
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}
+
+      - name: Install kubectl
+        run: |
+          curl -LO https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/kubectl
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          cat <<EOF > ~/.kube/config
+          apiVersion: v1
+          kind: Config
+          clusters:
+          - name: k3s
+            cluster:
+              server: ${K8S_API_URL}
+              insecure-skip-tls-verify: true
+          users:
+          - name: ci-user
+            user:
+              token: ${K8S_TOKEN}
+          contexts:
+          - name: ci
+            context:
+              cluster: k3s
+              user: ci-user
+              namespace: ${NAMESPACE}
+          current-context: ci
+          EOF
+        env:
+          K8S_API_URL: ${{ secrets.K8S_API_URL }}
+          K8S_TOKEN: ${{ secrets.K8S_TOKEN }}
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/
+          kubectl rollout restart deployment stats-app -n ${NAMESPACE}
+          kubectl rollout status deployment stats-app -n ${NAMESPACE}
