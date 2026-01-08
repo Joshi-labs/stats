@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-app
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stats-app
+  template:
+    metadata:
+      labels:
+        app: stats-app
+    spec:
+      containers:
+      - name: stats
+        image: ghcr.io/joshi-labs/stats:latest
+        ports:
+        - containerPort: 3000
