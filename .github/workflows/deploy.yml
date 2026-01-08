@@ -41,8 +41,7 @@ jobs:
 
       - name: Install kubectl
         run: |
-          KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
-          curl -L -o kubectl https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+          curl -L -o kubectl https://dl.k8s.io/release/1.34.3/bin/linux/amd64/kubectl
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/kubectl
           kubectl version --client
@@ -77,6 +76,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/ --validate=false
-          kubectl rollout restart deployment stats-app -n ${NAMESPACE}
-          kubectl rollout status deployment stats-app -n ${NAMESPACE}
+          kubectl --kubeconfig ~/.kube/config apply -f k8s/ --validate=false
+          kubectl --kubeconfig ~/.kube/config rollout restart deployment stats-app -n ${NAMESPACE}
+          kubectl --kubeconfig ~/.kube/config rollout status deployment stats-app -n ${NAMESPACE}
+
