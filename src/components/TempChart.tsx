@@ -9,7 +9,7 @@ export default function TempChart() {
   const { data } = useSWR('/api/metrics/temp', fetcher, { refreshInterval: 30000 });
 
   return (
-    <div className="h-[400px] w-full bg-black p-4 border border-zinc-800 rounded-lg">
+    <div className="h-[300px] w-[50%] bg-[#22252b] p-4 border border-zinc-800 rounded-lg">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
@@ -21,14 +21,14 @@ export default function TempChart() {
           <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
           <XAxis 
             dataKey="time" 
-            stroke="#52525b" 
+            stroke="#81818bff" 
             fontSize={12} 
             tickLine={true} 
             axisLine={false}
             interval={25}
           />
           <YAxis 
-            stroke="#52525b" 
+            stroke="#81818bff" 
             fontSize={12} 
             tickLine={false} 
             axisLine={false} 
