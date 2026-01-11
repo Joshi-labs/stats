@@ -1,5 +1,5 @@
 export async function getCpuTempRange() {
-  const baseUrl = process.env.PROMETHEUS_URL || "http://prometheus-service:9090";
+  const baseUrl = process.env.PROMETHEUS_URL || "http://prometheus:9090";
   const now = Math.floor(Date.now() / 1000);
   const oneHourAgo = now - 3600;
   

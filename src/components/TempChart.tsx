@@ -9,7 +9,7 @@ export default function TempChart() {
   const { data } = useSWR('/api/metrics/temp', fetcher, { refreshInterval: 30000 });
 
   return (
-    <div className="h-[300px] w-[50%] bg-[#22252b] p-4 border border-zinc-800 rounded-lg">
+    <div className="h-[250px] w-[50%] bg-[#22252b] p-4 border border-zinc-800 rounded-lg">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
