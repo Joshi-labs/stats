@@ -6,49 +6,47 @@ import useSWR from 'swr';
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function TempChart() {
-  const { data } = useSWR('/api/metrics/temp', fetcher, { 
-    refreshInterval: 10000 // Update the whole chart every 10s to match resolution
-  });
+  const { data } = useSWR('/api/metrics/temp', fetcher, { refreshInterval: 30000 });
 
   return (
-    <div className="h-[400px] w-full bg-black p-4 border border-zinc-800 rounded-lg shadow-2xl">
+    <div className="h-[400px] w-full bg-black p-4 border border-zinc-800 rounded-lg">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#22c55e" stopOpacity={0.4}/>
+              <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
               <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="2 2" stroke="#18181b" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#18181b" vertical={false} />
           <XAxis 
             dataKey="time" 
             stroke="#52525b" 
-            fontSize={10} 
-            tickLine={false} 
+            fontSize={12} 
+            tickLine={true} 
             axisLine={false}
-            interval={60} // Shows a label roughly every 10 minutes to keep it clean
+            interval={25}
           />
           <YAxis 
             stroke="#52525b" 
-            fontSize={10} 
+            fontSize={12} 
             tickLine={false} 
             axisLine={false} 
             domain={['auto', 'auto']}
-            tickFormatter={(val) => `${val}°C`}
           />
           <Tooltip 
-            contentStyle={{ backgroundColor: '#09090b', border: '1px solid #27272a' }}
-            itemStyle={{ color: '#22c55e' }}
-            isAnimationActive={false}
+            contentStyle={{ backgroundColor: '#09090b', border: '1px solid #27272a', borderRadius: '4px' }}
+            itemStyle={{ color: '#22c55e', fontSize: '12px' }}
+            labelStyle={{ color: '#a1a1aa', marginBottom: '4px' }}
           />
           <Area 
-            type="linear" // Jagged precision
+            type="linear"  
             dataKey="temp" 
             stroke="#22c55e" 
-            strokeWidth={1}
+            strokeWidth={1.5}
+            fillOpacity={1} 
             fill="url(#colorTemp)" 
-            isAnimationActive={false}
+            isAnimationActive={false} 
           />
         </AreaChart>
       </ResponsiveContainer>

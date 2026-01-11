@@ -1,10 +1,19 @@
-"use server"; // This ensures this code ONLY runs on your server
+export async function getCpuTempRange() {
+  const baseUrl = process.env.PROMETHEUS_URL || "http://prometheus-service.monitoring:9090";
+  const now = Math.floor(Date.now() / 1000);
+  const oneHourAgo = now - 3600;
+  
+  const query = 'node_hwmon_temp_celsius{chip="platform_coretemp_0", sensor="temp1"}';
+  
+  // Changed step=60s to step=10s for higher precision
+  const url = `${baseUrl}/api/v1/query_range?query=${encodeURIComponent(query)}&start=${oneHourAgo}&end=${now}&step=10s`;
 
-export async function getCpuUsage() {
-  const PROM_URL = "http://prometheus-service.monitoring:9090/api/v1/query?query=node_cpu_seconds_total";
-  
-  const res = await fetch(PROM_URL, { cache: 'no-store' }); // Don't cache metrics!
-  if (!res.ok) throw new Error("Failed to fetch Prometheus");
-  
-  return res.json();
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error("Range fetch failed");
+    return await res.json();
+  } catch (error) {
+    console.error("Temp Fetch Error:", error);
+    return { data: { result: [] } };
+  }
 }
