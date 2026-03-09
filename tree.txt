@@ -21,6 +21,8 @@ stats/
 ├── postcss.config.mjs
 ├── src
 │   ├── components
+│   │   ├── Navbar.tsx
+│   │   ├── StatCard.tsx
 │   │   └── TempChart.tsx
 │   ├── lib
 │   │   └── metrics.ts
@@ -39,26 +41,6 @@ stats/
 
 --- PATH: .env.local ---
 PROMETHEUS_URL=http://192.168.1.10:9090
-
-
-
-
---- PATH: .gitignore ---
->>> [CONTENT IGNORED BY CONFIG]
-
-
-
-
---- PATH: Dockerfile ---
->>> [CONTENT IGNORED BY CONFIG]
-
-
-
-
---- PATH: README.md ---
->>> [CONTENT IGNORED BY CONFIG]
-
-
 
 
 --- PATH: app/api/metrics/route.ts ---
@@ -146,6 +128,7 @@ body {
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/src/components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -172,6 +155,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Navbar />
         {children}
       </body>
     </html>
@@ -184,17 +168,61 @@ export default function RootLayout({
 
 --- PATH: app/page.tsx ---
 import TempChart from "@/src/components/TempChart";
+import StatCard from "@/src/components/StatCard";
+import { Activity, Clock, Cpu, Server } from "lucide-react";
 
 export default function Page() {
   return (
     <main className="min-h-screen bg-[#111217] p-10 text-white">
-      <div className="">
-        <header className="mb-10">
+      <div className="max-w-[1600px] mx-auto">
+        <header className="mb-8 mt-[-10px]">
           <h1 className="text-3xl font-bold tracking-tighter">Infrastructure Stats</h1>
         </header>
 
-        <div className="flex gap-8">
-          <TempChart /><TempChart />
+        {/* Stats Row - 80px high cards */}
+        <div className="flex"><div className="w-1 h-5 bg-[#22c55e] rounded-full" /><div className="ml-[5]">Sdas</div></div>
+        <div className="flex gap-4 mb-8">
+          <StatCard label="Uptime" value="12d 4h" iconName="Clock" width="w-1/4" color="#3b82f6" />
+          <StatCard label="CPU Load" value="14%" iconName="Cpu" width="w-1/4" color="#a855f7" />
+          <StatCard label="Status" value="Online" iconName="Activity" width="w-1/4" color="#22c55e" />
+          <StatCard label="Nodes" value="3" iconName="Server" width="w-1/4" color="#eab308" />
+        </div>
+        <div className="flex gap-4 mb-8">
+          <StatCard label="Uptime" value="12d 4h" iconName="Clock" width="w-1/4" color="#3b82f6" />
+          <StatCard label="CPU Load" value="14%" iconName="Cpu" width="w-1/4" color="#a855f7" />
+          <StatCard label="Status" value="Online" iconName="Activity" width="w-1/4" color="#22c55e" />
+          <StatCard label="Nodes" value="3" iconName="Server" width="w-1/4" color="#eab308" />
+        </div>
+
+        {/* Charts Row */}
+        
+        <div className="flex"><div className="w-1 h-5 bg-[#22c55e] rounded-full" /><div className="ml-[5]">Sdas</div></div>
+        <div className="flex gap-4 mb-5">
+          <TempChart />
+          <TempChart />
+        </div>
+
+                {/* Charts Row */}
+        
+        <div className="flex"><div className="w-1 h-5 bg-[#22c55e] rounded-full" /><div className="ml-[5]">Sdas</div></div>
+        <div className="flex gap-4 mb-5">
+          <TempChart />
+          <TempChart />
+        </div>
+
+              {/* Stats Row - 80px high cards */}
+        <div className="flex"><div className="w-1 h-5 bg-[#22c55e] rounded-full" /><div className="ml-[5]">Sdas</div></div>
+        <div className="flex gap-4 mb-8">
+          <StatCard label="Uptime" value="12d 4h" iconName="Clock" width="w-1/4" color="#3b82f6" />
+          <StatCard label="CPU Load" value="14%" iconName="Cpu" width="w-1/4" color="#a855f7" />
+          <StatCard label="Status" value="Online" iconName="Activity" width="w-1/4" color="#22c55e" />
+          <StatCard label="Nodes" value="3" iconName="Server" width="w-1/4" color="#eab308" />
+        </div>
+        <div className="flex gap-4 mb-8">
+          <StatCard label="Uptime" value="12d 4h" iconName="Clock" width="w-1/4" color="#3b82f6" />
+          <StatCard label="CPU Load" value="14%" iconName="Cpu" width="w-1/4" color="#a855f7" />
+          <StatCard label="Status" value="Online" iconName="Activity" width="w-1/4" color="#22c55e" />
+          <StatCard label="Nodes" value="3" iconName="Server" width="w-1/4" color="#eab308" />
         </div>
       </div>
     </main>
@@ -247,46 +275,6 @@ export default nextConfig;
 
 
 
---- PATH: package-lock.json ---
->>> [CONTENT IGNORED BY CONFIG]
-
-
-
-
---- PATH: package.json ---
-{
-  "name": "stats",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "lucide-react": "^0.562.0",
-    "next": "16.1.1",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "recharts": "^3.6.0",
-    "swr": "^2.3.8"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.1",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
-}
-
-
-
-
 
 --- PATH: postcss.config.mjs ---
 const config = {
@@ -297,6 +285,106 @@ const config = {
 
 export default config;
 
+
+
+
+
+--- PATH: src/components/Navbar.tsx ---
+"use client";
+
+import { User, BookOpen, Briefcase } from "lucide-react";
+import Link from "next/link";
+
+export default function Navbar() {
+  return (
+    <nav className="w-full h-12 bg-[#0b0c10] border-b border-zinc-800 flex items-center justify-between px-4 sticky top-0 z-50">
+      {/* Left Side: Logos and Title */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {/* Grafana Logo */}
+          <img 
+            src="https://grafana.com/media/docs/home/logos/grafana-sm.svg" 
+            alt="Grafana" 
+            className="h-6 w-6 object-contain"
+          />
+          {/* Prometheus Logo */}
+          <img 
+            src="https://prometheus.io/_next/static/media/prometheus-logo.7aa022e5.svg" 
+            alt="Prometheus" 
+            className="h-6 w-6 object-contain"
+          />
+        </div>
+        
+        <div className="h-4 w-[1px] bg-zinc-700 mx-1" />
+        
+        <h1 className="text-sm font-medium text-zinc-200 tracking-tight">
+          Grafana Prometheus <span className="text-zinc-500 font-normal">based Monitoring System</span>
+        </h1>
+      </div>
+
+      {/* Right Side: Actions & User */}
+      <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
+          <button className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer group">
+            <Briefcase size={14} className="group-hover:text-blue-400 transition-colors" />
+            <span>Portfolio</span>
+          </button>
+          <button className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer group">
+            <BookOpen size={14} className="group-hover:text-orange-400 transition-colors" />
+            <span>Documentation</span>
+          </button>
+        </div>
+
+        <div className="h-4 w-[1px] bg-zinc-700" />
+
+        {/* User Icon with Tooltip */}
+        <div className="relative group flex items-center gap-2 cursor-pointer">
+          <div className="w-7 h-7 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center overflow-hidden transition-colors group-hover:border-zinc-500">
+            <User size={16} className="text-zinc-400 group-hover:text-white" />
+          </div>
+          
+          {/* Tooltip */}
+          <div className="absolute top-10 right-0 hidden group-hover:block bg-[#1c1d24] border border-zinc-700 text-[10px] text-white px-2 py-1.5 rounded shadow-2xl whitespace-nowrap z-50">
+            Guest User
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+
+
+
+--- PATH: src/components/StatCard.tsx ---
+"use client";
+
+import * as Icons from 'lucide-react';
+
+interface StatCardProps {
+  label: string;
+  value: string | number;
+  iconName: keyof typeof Icons; // Pass the name of the icon as a string
+  color?: string;
+  width?: string;
+}
+
+export default function StatCard({ label, value, iconName, color = "#22c55e", width = "w-1/4" }: StatCardProps) {
+  // Dynamically get the icon component
+  const Icon = Icons[iconName] as Icons.LucideIcon;
+
+  return (
+    <div className={`h-[80px] ${width} bg-[#22252b] border border-zinc-800 rounded-lg p-4 flex items-center gap-4 mb-[-10]`}>
+      <div className="p-2 rounded-md bg-white/5">
+        {Icon && <Icon size={20} style={{ color }} />}
+      </div>
+      <div className="flex flex-col">
+        <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">{label}</span>
+        <span className="text-xl font-bold text-white tabular-nums">{value}</span>
+      </div>
+    </div>
+  );
+}
 
 
 
@@ -404,47 +492,5 @@ export interface PrometheusResponse {
 
 --- PATH: tree.py ---
 >>> [CONTENT IGNORED BY CONFIG]
-
-
-
-
---- PATH: tsconfig.json ---
-{
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
-  ],
-  "exclude": ["node_modules"]
-}
-
-
-
 
 

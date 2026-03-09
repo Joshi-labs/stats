@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getCpuTempRange, parseRangeValues } from "@/src/lib/metrics";
+import { getRamRange, parseRangeValues } from "@/src/lib/metrics";
 
 export async function GET() {
-  const data = await getCpuTempRange();
+  const data = await getRamRange();
   return NextResponse.json(parseRangeValues(data));
 }
