@@ -21,11 +21,8 @@ built on Next.js · Prometheus · Grafana · k3s
 
 ## screenshots
 
-> *(replace with your actual screenshots)*
-
-| Desktop | Mobile |
-|---|---|
-| ![Desktop View](screenshots/desktop.png) | ![Mobile View](screenshots/mobile.png) |
+![](screenshots/1.png) 
+![](screenshots/2.png) 
 
 ---
 
