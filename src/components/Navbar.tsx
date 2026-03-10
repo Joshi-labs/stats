@@ -2,6 +2,7 @@
 
 import { User, BookOpen, Briefcase, Menu, X } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,14 +29,24 @@ export default function Navbar() {
         {/* Right: Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer group">
+            <Link
+              href="https://vpjoshi.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors group"
+            >
               <Briefcase size={14} className="group-hover:text-blue-400 transition-colors" />
               <span>Portfolio</span>
-            </button>
-            <button className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer group">
+            </Link>
+            <Link
+              href="https://docs.vpjoshi.in/#/server"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors group"
+            >
               <BookOpen size={14} className="group-hover:text-orange-400 transition-colors" />
               <span>Documentation</span>
-            </button>
+            </Link>
           </div>
           <div className="h-4 w-[1px] bg-zinc-700" />
           <div className="relative group flex items-center gap-2 cursor-pointer">
@@ -67,14 +78,24 @@ export default function Navbar() {
       {/* Mobile dropdown — buttons centered */}
       {menuOpen && (
         <div className="md:hidden bg-[#0b0c10] border-b border-zinc-800 px-4 py-4 flex flex-col items-center gap-4 sticky top-12 z-40">
-          <button className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer group">
+          <Link
+            href="https://vpjoshi.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors group"
+          >
             <Briefcase size={14} className="group-hover:text-blue-400 transition-colors" />
             <span>Portfolio</span>
-          </button>
-          <button className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer group">
+          </Link>
+          <Link
+            href="https://docs.vpjoshi.in/#/server"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors group"
+          >
             <BookOpen size={14} className="group-hover:text-orange-400 transition-colors" />
             <span>Documentation</span>
-          </button>
+          </Link>
         </div>
       )}
     </>
