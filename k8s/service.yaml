@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: stats-app
-  namespace: monitoring
+  namespace: apps-prod
 spec:
   selector:
     app: stats-app
