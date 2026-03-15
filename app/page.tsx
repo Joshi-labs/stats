@@ -121,7 +121,7 @@ export default function Page() {
         <CardGrid>
           <StatCard label="Power Draw"        value={val("power")}           iconName="Zap"      color="#eab308" />
           <StatCard label="Avg Power (1hr)"   value={val("avgPower")}        iconName="Activity" color="#facc15" />
-          <StatCard label="Est. Monthly Cost" value={val("electricityCost")} iconName="Wallet"   color="#22d3ee" />
+          <StatCard label="Est. Monthly Electricity Cost" value={val("electricityCost")} iconName="Wallet"   color="#22d3ee" />
           <StatCard label={`Swap (${val("swapLabel")})`} value={val("swapPercent")} iconName="Layers" color="#f43f5e" />
         </CardGrid>
 
