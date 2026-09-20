@@ -154,10 +154,6 @@ cd stats
 npm install
 ```
 
-Create `.env.local`:
-```env
-PROMETHEUS_URL=http://your-prometheus-ip:9090
-```
 
 Run dev server:
 ```bash

@@ -1,4 +1,4 @@
-const BASE_URL = process.env.PROMETHEUS_URL || "http://prometheus:9090";
+const BASE_URL = "http://prometheus:9090";
 
 async function queryInstant(query: string) {
   const url = `${BASE_URL}/api/v1/query?query=${encodeURIComponent(query)}`;
